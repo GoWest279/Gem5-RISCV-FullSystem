@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2001-2005 The Regents of The University of Michigan
  * Copyright (c) 2007 MIPS Technologies, Inc.
+ * Copyright (c) 2019 Yifei Liu
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,6 +32,10 @@
  *          Jaidev Patwardhan
  *          Zhengxing Li
  *          Deyuan Guo
+ *          Yifei Liu
+ *          Lin Cheng
+ *          Xihao Cheng
+ *          Cheng Tan
  */
 
 #include "arch/riscv/tlb.hh"
@@ -300,14 +305,26 @@ TLB::translateInst(const RequestPtr &req, ThreadContext *tc)
              */
             req->setPaddr(req->getVaddr());
             return checkCacheability(req);
-        } else {
-            /**
-             * as we currently support bare metal only, we throw a panic,
-             * if it is not a bare metal system
-             */
-            panic("translateInst not implemented in RISC-V.\n");
         }
-    } else {
+        else {
+            // Virtual Address Translation Process
+            // Need something tell gem5 to run in virtual memory
+            // I use satp register
+            if (tc->readMiscReg(MISCREG_SATP)!=0){
+                if ( (req->getVaddr()&0xffffffe000000000) \
+                                                  == 0xffffffe000000000){
+                    req->setPaddr(((req->getVaddr()&0x000000000FFFFFFFF)\
+                                  + 0x00000000080200000));
+                                }
+                                else
+                                req->setPaddr((req->getVaddr()&0xFFFFFFFF));
+                        }
+                        else
+                            req->setPaddr(req->getVaddr());
+            return checkCacheability(req);
+        }
+    }
+    else {
         Process * p = tc->getProcessPtr();
 
         Fault fault = p->pTable->translate(req);
@@ -335,14 +352,26 @@ TLB::translateData(const RequestPtr &req, ThreadContext *tc, bool write)
              */
             req->setPaddr(req->getVaddr());
             return checkCacheability(req);
-        } else {
-            /**
-             * as we currently support bare metal only, we throw a panic,
-             * if it is not a bare metal system
-             */
-            panic("translateData not implemented in RISC-V.\n");
         }
-    } else {
+        else {
+            // Virtual Address Translation Process
+            // Need something tell gem5 to run in virtual memory
+            // I use satp register
+            if (tc->readMiscReg(MISCREG_SATP)!=0){
+                if ( (req->getVaddr()&0xffffffe000000000) \
+                                                  == 0xffffffe000000000){
+                    req->setPaddr(((req->getVaddr()&0x000000000FFFFFFFF)\
+                                  + 0x00000000080200000));
+                                }
+                                else
+                                req->setPaddr((req->getVaddr()&0xFFFFFFFF));
+                        }
+                        else
+                            req->setPaddr(req->getVaddr());
+            return checkCacheability(req);
+        }
+    }
+    else {
         // In the O3 CPU model, sometimes a memory access will be speculatively
         // executed along a branch that will end up not being taken where the
         // address is invalid.  In that case, return a fault rather than trying
