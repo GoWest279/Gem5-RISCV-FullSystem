@@ -151,8 +151,13 @@ self.system_port = self.membus.slave
 # This will initialize most of the x86-specific system parameters
 # This includes things like the I/O, multiprocessor support, BIOS...
 init_fs(self, self.membus)
-self.kernel = binary('bbl5')
-self.dtb_filename = 'cpu.dtb'
+# bbl4: berkely boot loader with customerized load
+# bbl3: berkely boot loader with original load
+# bbl6: berkely boot loader with linux kernel
+self.kernel = binary\
+            ('/home/yliu/A00gem5/Gem5-RISCV-FullSystem/configs/example/bbl3')
+self.dtb_filename = \
+            '/home/yliu/A00gem5/Gem5-RISCV-FullSystem/configs/example/cpu.dtb'
 boot_options = ['earlyprintk=ttyS0,384000',
                 'console=ttyS0,384000',
                 'lpj=7999923',
