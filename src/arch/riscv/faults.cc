@@ -135,7 +135,7 @@ RiscvFault::invoke(ThreadContext *tc, const StaticInstPtr &inst)
         if (tc->readIntReg(17) == 1)
             printf("%c", (char) tc->readIntReg(10));
         // Set PC to fault handler address
-        Addr addr = tc->readMiscReg(tvec) >> 2;
+        Addr addr = tc->readMiscReg(tvec);// >> 2;
         if (isInterrupt() && bits(tc->readMiscReg(tvec), 1, 0) == 1)
             addr += 4 * _code;
         pcState.set(addr);
