@@ -65,6 +65,10 @@ CSROp::generateDisassembly(Addr pc, const SymbolTable *symtab) const
         ss << data->second.name;
     else
         ss << "?? (" << hex << "0x" << csr << ")";
+        if (string(mnemonic) == "csrrwi")
+    {
+        ss << ", " << CSRIMM;
+    }
     return ss.str();
 }
 
