@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2015 RISC-V Foundation
  * Copyright (c) 2017 The University of Virginia
+ * Copyright (c) 2019 Yifei Liu
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,8 +28,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Authors: Alec Roelke
- */
-
+ *          Yifei Liu
+ *          Lin Cheng
+ *          Xihao Chen
+ *          Cheng Tan
+*/
 #include "arch/riscv/insts/standard.hh"
 
 #include <sstream>
@@ -65,7 +69,7 @@ CSROp::generateDisassembly(Addr pc, const SymbolTable *symtab) const
         ss << data->second.name;
     else
         ss << "?? (" << hex << "0x" << csr << ")";
-        if (string(mnemonic) == "csrrwi")
+    if (string(mnemonic) == "csrrwi")
     {
         ss << ", " << CSRIMM;
     }
