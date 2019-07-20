@@ -2,6 +2,7 @@
  * Copyright (c) 2016 RISC-V Foundation
  * Copyright (c) 2016 The University of Virginia
  * Copyright (c) 2018 TU Dresden
+ * Copyright (c) 2019 Yifei Liu
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,6 +30,10 @@
  *
  * Authors: Alec Roelke
  *          Robert Scheffel
+ *			Yifei Liu
+ *			Lin Cheng
+ *			Xihao Chen
+ *			Cheng Tan
  */
 #include "arch/riscv/faults.hh"
 
