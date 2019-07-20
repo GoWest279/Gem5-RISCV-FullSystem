@@ -125,7 +125,10 @@ RiscvFault::invoke(ThreadContext *tc, const StaticInstPtr &inst)
         tc->setMiscReg(tval, trap_value());
         tc->setMiscReg(MISCREG_PRV, prv);
         tc->setMiscReg(MISCREG_STATUS, status);
-
+        // if it's serial handler, printf
+        // becasue no interrupt module yet
+        if (tc->readIntReg(17) == 1)
+            printf("%c", (char) tc->readIntReg(10));
         // Set PC to fault handler address
         Addr addr = tc->readMiscReg(tvec) >> 2;
         if (isInterrupt() && bits(tc->readMiscReg(tvec), 1, 0) == 1)
