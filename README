@@ -1,4 +1,4 @@
-This the first materialized Gem5 RISC-V full system simulation platform.
+This the Gem5 RISC-V full system simulation platform.
 
 It's able to run Berkely Boot Loader and Linux 4.14 kernel.
 
